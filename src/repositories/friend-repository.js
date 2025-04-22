@@ -1,5 +1,5 @@
 const { Friendship, User } = require('../models');
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 
 const { REQUEST_RESPONSE_STATUS } = require('../utils/common/enums');
 const { PENDING } = REQUEST_RESPONSE_STATUS;
@@ -71,6 +71,19 @@ class FriendRepository {
         });
 
         return friends;
+    }
+
+    async findAll(excludeIds) {
+        const suggestions = await User.findAll({
+            where: {
+                id: { [Op.notIn]: excludeIds }
+            },
+            attributes: ['id', 'name', 'email'],
+            order: [[Sequelize.fn('RAND')]],
+            limit: 5
+        });
+
+        return suggestions;
     }
 }
 

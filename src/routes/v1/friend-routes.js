@@ -16,5 +16,9 @@ router.get('/getFriends',
     UserMiddlewares.checkAuth,
     FriendControllers.getFriends);
 
+router.get('/suggestions',
+    UserMiddlewares.checkAuth,
+    FriendControllers.getFriendSuggestions);
+
 
 module.exports = router;

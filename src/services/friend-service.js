@@ -49,14 +49,31 @@ async function getFriends(userId) {
         const connectedFriends = await friendRepository.fetchAcceptedFriends(userId);
         return connectedFriends;
     } catch (error) {
-        console.log("Service Error is :", error);
         throw new AppError('Cannot get connected friends', StatusCodes.INTERNAL_SERVER_ERROR);
     }
 };
 
+async function getFriendSuggestions(userId) {
+    try {
+        const excludeIds = [];
+
+        const acceptedFriends = await friendRepository.fetchAcceptedFriends(userId);
+        acceptedFriends.forEach(friend => {
+            excludeIds.push(friend.id);
+        });
+        excludeIds.push(userId);
+
+        return await friendRepository.findAll(excludeIds);
+    } catch (error) {
+        console.log("Service Error is :", error);
+        throw new AppError('Cannot get suggestion to friends', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
+
 module.exports = {
     sendRequest,
     respondToRequest,
-    getFriends
+    getFriends,
+    getFriendSuggestions
 }
 

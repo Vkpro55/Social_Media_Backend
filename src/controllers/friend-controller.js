@@ -60,9 +60,27 @@ async function getFriends(req, res) {
     }
 }
 
+async function getFriendSuggestions(req, res) {
+    try {
+        const friends = await FriendService.getFriendSuggestions(req.user);
+
+        SuccessResponse.data = friends;
+        return res
+            .status(StatusCodes.OK)
+            .json(SuccessResponse);
+    } catch (error) {
+        ErrorResponse.error = error;
+
+        return res
+            .status(error.statusCode)
+            .json(ErrorResponse);
+    }
+}
+
 
 module.exports = {
     sendRequest,
     respondToRequest,
-    getFriends
+    getFriends,
+    getFriendSuggestions
 };
