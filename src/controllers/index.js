@@ -1,3 +1,4 @@
 module.exports = {
-    InfoController: require("./info-controlllers")
+    AuthControllers: require('./auth-controllers'),
+    UserControllers: require('./user-controller')
 };
