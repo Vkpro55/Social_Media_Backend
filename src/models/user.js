@@ -15,6 +15,16 @@ module.exports = (sequelize, DataTypes) => {
         as: 'role',
         onDelete: 'CASCADE'
       });
+
+      this.hasMany(models.Friendship, {
+        foreignKey: 'senderId',
+        as: 'SentFriendRequests'
+      });
+
+      this.hasMany(models.Friendship, {
+        foreignKey: 'receiverId',
+        as: 'ReceivedFriendRequests'
+      });
     }
 
   }

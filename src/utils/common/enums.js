@@ -9,8 +9,14 @@ const USER_ROLES = {
     CUSTOMER: "customer"
 }
 
+const REQUEST_RESPONSE_STATUS = {
+    PENDING: 'pending',
+    ACCEPTED: 'accepted',
+    REJECTED: 'rejected'
+}
 
 module.exports = {
     ITEM_CATEGORY,
-    USER_ROLES
+    USER_ROLES,
+    REQUEST_RESPONSE_STATUS
 }
