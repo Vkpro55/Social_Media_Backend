@@ -26,6 +26,11 @@ class AuthRepository {
 
         return response;
     }
+
+    async getAll() {
+        const response = await User.findAll();
+        return response;
+    }
 }
 
 module.exports = AuthRepository;

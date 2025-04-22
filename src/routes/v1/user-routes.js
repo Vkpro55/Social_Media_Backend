@@ -15,4 +15,8 @@ router.patch('/updateProfile',
     UserMiddlewares.validatePassword,
     UserControllers.updateProfile);
 
+router.get("/",
+    UserMiddlewares.checkAuth,
+    UserControllers.getUsers);
+
 module.exports = router;

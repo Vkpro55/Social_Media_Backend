@@ -40,7 +40,25 @@ async function updateProfile(req, res) {
     }
 }
 
+async function getUsers(req, res) {
+    try {
+        const users = await UserService.getUsers(req.user);
+        SuccessResponse.data = users;
+
+        return res
+            .status(StatusCodes.OK)
+            .json(SuccessResponse);
+    } catch (error) {
+        ErrorResponse.error = error;
+
+        return res
+            .status(error.statusCode)
+            .json(ErrorResponse);
+    }
+}
+
 module.exports = {
     getProfile,
-    updateProfile
+    updateProfile,
+    getUsers
 }
