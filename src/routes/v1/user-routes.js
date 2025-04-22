@@ -5,12 +5,14 @@ const { UserControllers } = require('../../controllers');
 
 const router = express.Router();
 
-router.get('/profile',
+router.get('/getprofile',
     UserMiddlewares.checkAuth,
     UserControllers.getProfile);
 
-router.patch('/:id',
+router.patch('/updateProfile',
     UserMiddlewares.checkAuth,
-    UserControllers.getProfile);
+    UserMiddlewares.validatePatchRequest,
+    UserMiddlewares.validatePassword,
+    UserControllers.updateProfile);
 
 module.exports = router;

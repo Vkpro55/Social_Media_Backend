@@ -30,6 +30,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      bio: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+        defaultValue: ""
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -22,6 +22,25 @@ async function getProfile(req, res) {
     }
 }
 
+async function updateProfile(req, res) {
+    try {
+        const response = await UserService.updateProfile(req.user, req.body);
+
+        SuccessResponse.data = response;
+
+        return res
+            .status(StatusCodes.OK)
+            .json(SuccessResponse);
+    } catch (error) {
+        ErrorResponse.error = error;
+
+        return res
+            .status(error.statusCode)
+            .json(ErrorResponse);
+    }
+}
+
 module.exports = {
-    getProfile
+    getProfile,
+    updateProfile
 }

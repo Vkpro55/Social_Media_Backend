@@ -1,4 +1,5 @@
 module.exports = {
     AuthRepository: require('./auth-repository'),
-    UserRepository: require('./user-repository')
+    UserRepository: require('./user-repository'),
+    RoleRepository: require('./role-repository')
 }

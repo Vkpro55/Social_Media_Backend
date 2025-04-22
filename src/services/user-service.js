@@ -29,6 +29,8 @@ async function isAuthenticated(token) {
         if (error.name == 'TokenExpiredError') {
             throw new AppError('JWT token expired', StatusCodes.BAD_REQUEST);
         }
+
+        console.log("Error is :", error);
         throw new AppError('Something went wrong', StatusCodes.INTERNAL_SERVER_ERROR);
     }
 }
@@ -38,15 +40,37 @@ async function getProfile(id) {
         const user = await userRepository.get(id);
         return user;
     } catch (error) {
-        if (error instanceof AppError) {
-            throw new AppError('User is not present', StatusCodes.NOT_FOUND);
+        if (error.statusCode === StatusCodes.NOT_FOUND) {
+            throw new AppError("The airplne you requested is not found", error.statusCode);
         }
 
-        throw new AppError('Something went wrong in the server', StatusCodes.INTERNAL_SERVER_ERROR);
+        throw new AppError("Cannot fetch data of an airplane", StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
+
+async function updateProfile(id, data) {
+    try {
+        const response = await userRepository.update(id, data);
+        return response;
+    } catch (error) {
+        if (error.name === "SequelizeValidationError") {
+            let explanation = [];
+            error.errors.forEach((err) => {
+                explanation.push(err.message);
+            });
+            throw new AppError(explanation, StatusCodes.BAD_REQUEST);
+        }
+
+        if (error.statusCode === StatusCodes.NOT_FOUND) {
+            throw new AppError("The user you requested to update is not found", error.statusCode);
+        }
+
+        throw new AppError("Cannot fetch data of a user you requested to update", StatusCodes.INTERNAL_SERVER_ERROR);
     }
 }
 
 module.exports = {
     isAuthenticated,
-    getProfile
+    getProfile,
+    updateProfile
 }

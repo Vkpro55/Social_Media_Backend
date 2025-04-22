@@ -10,13 +10,18 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
 
     static associate(models) {
-
+      this.belongsToMany(models.Role, {
+        through: 'User_Roles',
+        as: 'role',
+        onDelete: 'CASCADE'
+      });
     }
 
   }
   User.init({
     email: {
       type: DataTypes.STRING,
+      allowNull: false,
       allowNull: false,
       unique: true,
       validate: {
@@ -35,6 +40,11 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    bio: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      defaultValue: ""
     }
   }, {
     sequelize,
