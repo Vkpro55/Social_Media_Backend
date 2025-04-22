@@ -57,8 +57,20 @@ async function validatePassword(req, res, next) {
     next();
 }
 
+async function validateSearchRequest(req, res, next) {
+    if (!req.query.name) {
+        ErrorResponse.error = new AppError('Searched user name not present in the query or request', StatusCodes.BAD_REQUEST);
+        return res
+            .status(StatusCodes.BAD_REQUEST)
+            .json(ErrorResponse);
+
+    }
+    next();
+}
+
 module.exports = {
     checkAuth,
     validatePatchRequest,
     validatePassword,
+    validateSearchRequest
 }

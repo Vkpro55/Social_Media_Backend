@@ -77,7 +77,17 @@ async function getUsers(id) {
         const users = allusers.filter((user) => user.email !== loggedUser.email);
         return users;
     } catch (error) {
-        throw new AppError("Cannot fetch data of all the airplanes", StatusCodes.INTERNAL_SERVER_ERROR);
+        throw new AppError("Cannot fetch data of all the users", StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
+
+async function getUser(userId, name) {
+    try {
+        const users = await userRepository.findAll(userId, name);
+        return users;
+    } catch (error) {
+        console.log("Error is", error);
+        throw new AppError("Cannot fetch data of all the users", StatusCodes.INTERNAL_SERVER_ERROR);
     }
 }
 
@@ -85,5 +95,6 @@ module.exports = {
     isAuthenticated,
     getProfile,
     updateProfile,
-    getUsers
+    getUsers,
+    getUser
 }

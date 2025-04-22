@@ -1,9 +1,11 @@
 const { StatusCodes } = require('http-status-codes');
 const AppError = require('../utils/errors/app-error');
 
+const { Op, Sequelize } = require('sequelize');
+
 const { User } = require('../models');
 
-class AuthRepository {
+class UserRepository {
 
     async get(id) {
         const response = await User.findByPk(id);
@@ -31,6 +33,24 @@ class AuthRepository {
         const response = await User.findAll();
         return response;
     }
+
+    async findAll(userId, name) {
+        const users = await User.findAll({
+            where: {
+                name: {
+                    [Op.like]: `%${name}%`
+                },
+                id: { [Op.ne]: userId }
+            },
+            attributes: ['id', 'name', 'email'],
+        });
+
+        if (users.length === 0) {
+            throw new AppError('No user found', StatusCodes.NOT_FOUND);
+        }
+
+        return users;
+    }
 }
 
-module.exports = AuthRepository;
+module.exports = UserRepository;

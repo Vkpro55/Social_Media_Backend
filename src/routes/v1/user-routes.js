@@ -19,4 +19,10 @@ router.get("/",
     UserMiddlewares.checkAuth,
     UserControllers.getUsers);
 
+
+router.get("/search",
+    UserMiddlewares.checkAuth,
+    UserMiddlewares.validateSearchRequest,
+    UserControllers.getUser);
+
 module.exports = router;
